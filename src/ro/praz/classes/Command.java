@@ -12,9 +12,8 @@ import java.util.List;
 the constructor takes a string read in the console and breaks it down
 into a command type and a list of paths to directories and files
  */
-public class Command {
-    private String type;
-    private List<Path> paths;
+public abstract class Command {
+    protected String type;
 
     public String getType() {
         return type;
@@ -31,35 +30,28 @@ public class Command {
         }
     }
 
-    private void addPath(Path path) throws InvalidAttributesException{
-        //every path provided must exist, else throws an exception
-        if(Files.exists(path)){
-            this.paths.add(path);
-        }
-        else {
-            throw new InvalidAttributesException("Invalid path: " + path.toString());
-        }
+    protected Command(String type) throws InvalidAttributesException{
+        this.type = type;
     }
 
-    public Command(String input) throws InvalidAttributesException{
-        paths = new ArrayList<>();
-        //split the input string by spaces
+    //abstract method to be implemented for each type of command
+    //abstract void execute();
+
+    public static Command getCommand(String input) throws InvalidAttributesException{
+        //splits input by spaces
         String[] inputArr = input.split("[ \\t]+");
-        //iterate through array, first string should be type of command the rest are paths
-        setType(inputArr[0]);
-        for(int i = 1; i < inputArr.length; i++){
-            addPath(Paths.get(inputArr[i]));
+        //first element is the type
+        inputArr[0] = inputArr[0].toLowerCase();
+        Command command = null;
+        //depending on the type, instantiate different command
+        if(inputArr[0].equals("index")){
+            command = new IndexCommand(inputArr);
         }
+        else if(inputArr[0].equals("search")){
+            command = new SearchCommand(inputArr);
+        }
+        return command;
     }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Command{");
-        sb.append("type=").append(type).append(", paths=");
-        for(Path s : paths){
-            sb.append(s.toString()).append(" ");
-        }
-        sb.append("}");
-        return sb.toString();
-    }
+
 }
