@@ -3,6 +3,7 @@ package ro.praz.main;
 import ro.praz.classes.Command;
 import ro.praz.classes.IndexCommand;
 import ro.praz.classes.SearchCommand;
+import ro.praz.utils.Storage;
 
 import javax.naming.directory.InvalidAttributesException;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 public class Main {
     private static Scanner cin = new Scanner(System.in);
 
-    private static List<Command> commands = new ArrayList<>();
+    //private static List<Command> commands = new ArrayList<>();
 
     public static void main(String[] args) {
         String input = cin.nextLine();
@@ -22,11 +23,16 @@ public class Main {
             try {
                 //command is either an index command or a search command
                 command = Command.getCommand(input);
-                commands.add(command);
+                //commands.add(command);
             } catch (InvalidAttributesException e) {
                 e.printStackTrace();
             }
-            System.out.println(command);
+            //System.out.println(command);
+            //execute the command, different behaviour depending on the command type
+            if(command!=null)
+                command.execute();
+
+            //System.out.println(Storage.wordMap);
             input = cin.nextLine();
         }
 

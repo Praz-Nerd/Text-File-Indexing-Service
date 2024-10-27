@@ -1,17 +1,8 @@
 package ro.praz.classes;
 
 import javax.naming.directory.InvalidAttributesException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
-//class representing a command
-/*
-the constructor takes a string read in the console and breaks it down
-into a command type and a list of paths to directories and files
- */
+//class representing an abstract command, only knows the type of the command
 public abstract class Command {
     protected String type;
 
@@ -35,7 +26,7 @@ public abstract class Command {
     }
 
     //abstract method to be implemented for each type of command
-    //abstract void execute();
+    public abstract void execute();
 
     public static Command getCommand(String input) throws InvalidAttributesException{
         //splits input by spaces
