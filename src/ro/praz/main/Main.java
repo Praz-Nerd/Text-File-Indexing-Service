@@ -13,12 +13,19 @@ import java.util.Scanner;
 public class Main {
     private static Scanner cin = new Scanner(System.in);
 
-    //private static List<Command> commands = new ArrayList<>();
+    private static void welcomeText(){
+        System.out.println("Text File Indexing Service\n");
+        System.out.println("Command syntaxes: ");
+        System.out.println("index followed by paths separated by space");
+        System.out.println("search followed by word to be searched\n");
+    }
 
     public static void main(String[] args) {
+        welcomeText();
+        System.out.print("Command (index/search/quit): ");
         String input = cin.nextLine();
         //reads one line at a time until the line contains a 0
-        while(!input.equals("0")){
+        while(!input.equals("quit")){
             Command command = null;
             try {
                 //command is either an index command or a search command
@@ -33,9 +40,9 @@ public class Main {
                 command.execute();
 
             //System.out.println(Storage.wordMap);
+            System.out.print("Command (index/search/quit): ");
             input = cin.nextLine();
         }
-
         cin.close();
     }
 }
