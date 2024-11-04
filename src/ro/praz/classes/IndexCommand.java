@@ -73,6 +73,8 @@ public class IndexCommand extends Command{
 
     @Override
     public void execute() {
+        //recreate hashmap
+        Storage.wordMap = new HashMap<>();
         if(paths.size() != 0){
             for(Path p : paths){
                 //recursively get all paths of all files in a folder, or just one if the path is a file

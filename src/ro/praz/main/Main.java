@@ -36,8 +36,10 @@ public class Main {
             }
             //System.out.println(command);
             //execute the command, different behaviour depending on the command type
-            if(command!=null)
+            if(command!=null){
                 command.execute();
+            }
+
 
             System.out.println("Number of tokens: "+Storage.wordMap.size());
             System.out.print("Command (index/search/quit): ");
