@@ -6,10 +6,16 @@ Please write a Java application that provides a service for indexing text files.
 
 `
 index test/other
+
 search the
+
 search hello
-index test/not a text file.abd
+
+index test/not a text file.abc
+
 index test/other test/hello.txt
+
 search hello
+
 quit
 `
