@@ -22,7 +22,7 @@ public abstract class Command {
     }
 
     protected Command(String type) throws InvalidAttributesException{
-        this.type = type;
+        setType(type);
     }
 
     //abstract method to be implemented for each type of command

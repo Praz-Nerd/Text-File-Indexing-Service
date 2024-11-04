@@ -39,7 +39,7 @@ public class Main {
             if(command!=null)
                 command.execute();
 
-            //System.out.println(Storage.wordMap);
+            System.out.println("Number of tokens: "+Storage.wordMap.size());
             System.out.print("Command (index/search/quit): ");
             input = cin.nextLine();
         }

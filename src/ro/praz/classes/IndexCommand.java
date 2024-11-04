@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class IndexCommand extends Command{
+    private static String REGEX = "[\\p{Punct}\\s]";
     private List<Path> paths;
 
     public IndexCommand(String[] stringArr) throws InvalidAttributesException{
@@ -34,18 +35,20 @@ public class IndexCommand extends Command{
     }
 
     private void tokenize(Path filePath){
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath.toFile())))) {
+        try(BufferedReader br = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(filePath.toFile())))) {
             String line = br.readLine();
             //read file line by line
             while(line!=null){
-                //instantiate tokenizer
-                StringTokenizer tokenizer = new StringTokenizer(line);
+                //instantiate tokenizer, with delimiters, punctuation marks
                 //iterate through the words
-                while(tokenizer.hasMoreTokens()){
-                    String word = tokenizer.nextToken();
+                String[] words = line.split(REGEX);
+                for(String word : words){
+                    Map<Path, Integer> pathMap = null;
                     //if the word exists in the map, get the path map
                     if(Storage.wordMap.containsKey(word)){
-                        Map<Path, Integer> pathMap = Storage.wordMap.get(word);
+                        pathMap = Storage.wordMap.get(word);
                         //update frequency, or add a new pair to the map
                         if(pathMap.containsKey(filePath)){
                             pathMap.put(filePath, pathMap.get(filePath)+1);
@@ -53,12 +56,12 @@ public class IndexCommand extends Command{
                         else {
                             pathMap.put(filePath, 1);
                         }
-                        //put updated path map back in the word map
-                        Storage.wordMap.put(word, pathMap);
                     }
                     //add new key entry and instantiate path map for it
                     else{
-                        Storage.wordMap.put(word, new HashMap<>());
+                        pathMap = new HashMap<>();
+                        pathMap.put(filePath, 1);
+                        Storage.wordMap.put(word, pathMap);
                     }
                 }
                 line = br.readLine();
